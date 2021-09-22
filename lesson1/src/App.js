@@ -1,9 +1,11 @@
 import './App.css';
-import FromAntd from './components/FromAntd';
+// import FromAntd from './components/FromAntd';
+import MyRCFieldForm from './pages/MyRcFieldForm';
 function App() {
     return (
         <div className="App">
-            <FromAntd />
+            {/* <FromAntd /> */}
+            <MyRCFieldForm />
         </div>
     );
 }
