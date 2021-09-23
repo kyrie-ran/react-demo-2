@@ -1,9 +1,10 @@
 import './App.css';
+import DialogPage from './pages/DialogPage';
 
 function App() {
     return (
         <div className="App">
-            app
+            <DialogPage />
         </div>
     );
 }
