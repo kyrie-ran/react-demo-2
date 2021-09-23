@@ -1,7 +1,8 @@
+import ReduxPage from "./pages/ReduxPage";
 function App() {
   return (
     <div className="App">
-      app
+      <ReduxPage />
     </div>
   );
 }
