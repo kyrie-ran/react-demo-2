@@ -81,11 +81,15 @@ class FormStore {
     }
 }
 
-export default function useForm() {
+export default function useForm(form) {
     const formRef = useRef();
     if (!formRef.current) {
-        const formStore = new FormStore();
-        formRef.current = formStore.getForm();
+        if(form){
+            formRef.current = form;
+        }else{
+            const formStore = new FormStore();
+            formRef.current = formStore.getForm();
+        }
     }
     return [formRef.current];
 }

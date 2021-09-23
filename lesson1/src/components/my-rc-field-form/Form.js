@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useImperativeHandle } from 'react'
 import FieldContext from './FieldContext';
 import useForm from './useForm'
 
-export default function From({ children, onFinish, onFinishFailed }) {
-    const [formInstance] = useForm();
+export default function From({ children, onFinish, onFinishFailed, form }, ref) {
+    const [formInstance] = useForm(form);
+
+    useImperativeHandle(ref,() => formInstance)
+
     formInstance.setCallback({
         onFinish,
         onFinishFailed
