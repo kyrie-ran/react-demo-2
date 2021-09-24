@@ -1,10 +1,12 @@
 import './App.css';
-import DialogPage from './pages/DialogPage';
+// import DialogPage from './pages/DialogPage';
+import MyRcFieldForm from './pages/MyRcFieldForm';
 
 function App() {
     return (
         <div className="App">
-            <DialogPage />
+            {/* <DialogPage /> */}
+            <MyRcFieldForm />
         </div>
     );
 }
