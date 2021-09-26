@@ -1,22 +1,45 @@
 import React, { Component } from 'react';
-import store from '../store';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+@connect(
+    // mapStateToProps  function
+    // state => ({count: state.count})
+    ({count,count2}) => ({count,count2}),
+    // mapDispatchToProps object | function
+    // object 写法
+    // {
+    //     add : () => ({
+    //         type: "ADD"
+    //     })
+    // }
+    // function 写法
+    dispatch => {
+        // const add = () => dispatch({type: 'ADD'});
+        // const minus = () => dispatch({type: 'MINUS'});
+        // const add2 = () => dispatch({type: 'ADD2',payload: 1});
 
-export default class ReduxPage extends Component {
-    componentDidMount(){
-        this.unsubscribe = store.subscribe(() => {
-            this.forceUpdate()
-        })
-    }
-    componentWillUnmount() {
-        this.unsubscribe && this.unsubscribe();
-    }
-    
-    add = () => {
-        store.dispatch({type: "ADD",payload: 100});
-    }
+        // 上面的简写方式
+        let creators = {
+            add: () => ({type: "ADD"}),
+            minus: () => ({type: "MINUS"}),
+            add2: () => ({type: "ADD2",payload: 10})
+        }
+        creators = bindActionCreators(creators,dispatch);
+        return {
+            dispatch,
+            ...creators
+        }
+    },
+    // mergeProps() 合并props
+    (stateProps,dispatchProps,ownProps) => ({...stateProps,...dispatchProps,...ownProps})
+)
+class ReduxPage extends Component {
+    // add = () => {
+    //     this.props.dispatch({type: "ADD",payload: 100});
+    // }
 
     asyAdd = () => {
-        store.dispatch((dispatch,getState) => {
+        this.props.dispatch((dispatch,getState) => {
             console.log('getState',getState());
             setTimeout(() => {
                 dispatch({type:'ADD'})
@@ -25,7 +48,7 @@ export default class ReduxPage extends Component {
     }
 
     promiseMinus = () => {
-        store.dispatch(
+        this.props.dispatch(
             Promise.resolve({
                 type: "MINUS",
                 payload: 100
@@ -34,22 +57,26 @@ export default class ReduxPage extends Component {
     }
 
     add2 = () => {
-        store.dispatch({type: "ADD2",payload: 100})
+        this.props.dispatch({type: "ADD2",payload: 100})
     }
 
     render() {
+        const {count,count2,add,minus,add2} = this.props;
+        console.log(this.props);
         return (
             <div>
                 <p>ReduxPage</p>
-                {/* <div>{store.getState()}</div> */}
-                <div>count: {store.getState().count}</div>
-                <div>count2: {store.getState().count2.num}</div>
-                <button onClick={this.add}>add</button>
+                <div>count: {count}</div>
+                <div>count2: {count2?.num}</div>
+                <button onClick={add}>add</button>
+                <button onClick={minus}>minus</button>
                 <button onClick={this.asyAdd}>asyAdd</button>
                 <button onClick={this.promiseMinus}>promiseMinus</button>
 
-                <button onClick={this.add2}>count2 add2</button>
+                <button onClick={add2}>count2 add2</button>
             </div>
         )
     }
 }
+
+export default ReduxPage;
