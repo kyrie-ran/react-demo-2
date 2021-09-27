@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-import { bindActionCreators } from '../kReactRedux';
+import { bindActionCreators } from 'redux';
 @connect(
+    // mapStateToProps  function
+    // state => ({count: state.count})
     ({count,count2}) => ({count,count2}),
+    // mapDispatchToProps object | function
+    // object 写法
+    // {
+    //     add : () => ({
+    //         type: "ADD"
+    //     })
+    // }
+    // function 写法
     dispatch => {
+        // const add = () => dispatch({type: 'ADD'});
+        // const minus = () => dispatch({type: 'MINUS'});
+        // const add2 = () => dispatch({type: 'ADD2',payload: 1});
+
+        // 上面的简写方式
         let creators = {
             add: () => ({type: "ADD"}),
             minus: () => ({type: "MINUS"}),
@@ -16,9 +30,14 @@ import { bindActionCreators } from '../kReactRedux';
             ...creators
         }
     },
+    // mergeProps() 合并props
     (stateProps,dispatchProps,ownProps) => ({...stateProps,...dispatchProps,...ownProps})
 )
 class ReduxPage extends Component {
+    // add = () => {
+    //     this.props.dispatch({type: "ADD",payload: 100});
+    // }
+
     asyAdd = () => {
         this.props.dispatch((dispatch,getState) => {
             console.log('getState',getState());
